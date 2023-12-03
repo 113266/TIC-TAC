@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <audio src="./mixkit-interface-click-1126.wav" id="tap_sound"></audio>
+    <audio src="./mixkit-arcade-game-opener-222.wav" id="win_sound"></audio>
+    <div class="div">
+        <div class="box"></div>
+        <div class="box"> </div>
+        <div class="box"> </div>
+        <div class="box"> </div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"> </div>
+    </div>
+    <div id="win" > </div>
+    <script>
+        let turn = ['X', 'O'];
+        let count = 0;
+        let rand = Math.floor(Math.random() * 2);
+        let current_turn = turn[rand];
+        let box = document.querySelectorAll(".box");
+        const  tap_sound= document.getElementById("tap_sound");
+        const win_sound= document.getElementById("win_sound");
+        box.forEach((div) => {
+            console.log(div);
+            div.addEventListener('click', function(e) {
+                current_turn = current_turn == 'X' ? e.target.textContent = 'O' : e.target.textContent = 'X';
+                count++;
+                console.log(count)
+                
+                tap_sound.play();
+                if(count!= 9){
+                    checkwin();
+                }
+
+                else if(count==9){
+
+                    let msg = document.getElementById('win');
+                msg.classList.add("win");
+                msg.innerHTML = "<h1>It's a draw!</h1>";
+                } else{
+                    
+                    div.classList.add("after_win")
+                }
+                 div.classList.add('unclick');
+            });
+        })
+       
+        let win_msg = () => {
+            win_sound.play();
+            let msg = document.getElementById('win');
+            msg.classList.add("win");
+            msg.innerHTML = `<h1> ${current_turn}  IS WINNER</h1>`;
+
+        }
+        let checkwin = () => {
+            if (
+                (box[0].textContent === box[1].textContent && box[1].textContent === box[2].textContent && box[0] !== '') ||
+                (box[3].textContent == box[4].textContent && box[4].textContent == box[5].textContent && box[3] !== '') ||
+                (box[6].textContent == box[7].textContent && box[7].textContent == box[8].textContent && box[6] !== '') ||
+                (box[0].textContent == box[3].textContent && box[3].textContent == box[6].textContent && box[0] !== '') ||
+                (box[1].textContent == box[4].textContent && box[4].textContent == box[7].textContent && box[1] !== '') ||
+                (box[2].textContent == box[5].textContent && box[5].textContent == box[8].textContent && box[2] !== '') ||
+                (box[0].textContent == box[4].textContent && box[4].textContent == box[8].textContent && box[0] !== '') ||
+                (box[2].textContent == box[4].textContent && box[4].textContent == box[6].textContent && box[2] !== '')
+            ) {
+                win_msg();
+            }
+            else if (count === 9) {
+                
+            }
+        }
+    </script>
+</body>
+
+</html>
